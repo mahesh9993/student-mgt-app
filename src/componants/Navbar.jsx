@@ -4,13 +4,25 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
-const Navbar = () => {
+const Navbar = ({ navName }) => {
   return (
-    <Box sx={{ mb: "5px" }}>
-      <AppBar position="static" color="gray">
+    <Box sx={{ mb: "15px", display: "flex", justifyContent: "center" }}>
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: "lightgray",
+          boxShadow: "none",
+          maxWidth: "1000px", // Adjust the maxWidth as needed
+          width: "100%", // Ensures it fills up to maxWidth
+        }}
+      >
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Students List
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, color: "black" }}
+          >
+            {navName}
           </Typography>
         </Toolbar>
       </AppBar>
