@@ -23,14 +23,14 @@ const RadioField = ({ onChange, value }) => {
             control={<Radio />}
             label="Female"
             name="gender"
-            checked={value == 0 ? true : false}
+            checked={value === 0 ? true : false}
           />
           <FormControlLabel
             value="1"
             control={<Radio />}
             label="Male"
             name="gender"
-            checked={value == 1 ? true : false}
+            checked={value === 1 ? true : false}
           />
         </RadioGroup>
       </Box>

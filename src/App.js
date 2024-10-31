@@ -1,6 +1,6 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import { getStudents } from "./services/data";
+import { getStudents } from "./services/Service";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import StudentRegistration from "./pages/StudentRegistration";
 import StudentList from "./pages/StudentList";
@@ -11,8 +11,18 @@ function App() {
   const [currentStudent, setCurrentStudent] = useState({});
   const [apiTriggerer, setApiTriggerer] = useState(true);
 
+  console.log("students", students);
+
   useEffect(() => {
-    setStudents(getStudents());
+    const fetchStudents = async () => {
+      try {
+        const data = await getStudents();
+        setStudents(data);
+      } catch (error) {
+        console.error("fetch students fail", error);
+      }
+    };
+    fetchStudents();
   }, []);
 
   const handleEdit = (student) => {
@@ -33,8 +43,16 @@ function App() {
   };
 
   const handleUpdate = (student) => {
-    console.log(student);
+    //console.log(student);
     //updateStudent(student)
+  };
+
+  const handleGetStudent = (phone) => {
+    if (phone) {
+      //getStudentByPhoneNo(phone);
+    } else {
+      console.log("search term not found");
+    }
   };
 
   return (
@@ -47,6 +65,7 @@ function App() {
               students={students}
               onEdit={handleEdit}
               onDelete={handleDelete}
+              getStudent={handleGetStudent}
             />
           }
         />

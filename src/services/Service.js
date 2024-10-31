@@ -1,56 +1,40 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 
 const API_URL = "https://localhost:44381/api/Student";
 
-export const getStudents = () => {
-  return axios
-    .get(API_URL)
-    .then((res) => {
-      console.log(res);
-      return res.data;
-    })
-    .catch((err) => {
-      toast.error("Failed to load students details.");
-      console.error("Error fetching student details:", err);
-    });
+export const getStudents = async () => {
+  try {
+    const res = await axios.get(API_URL);
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.error("student list:", err);
+  }
 };
 
-export const createStudent = (student) => {
-  return axios
-    .post(API_URL, student)
-    .then((res) => {
-      toast.success("Student created successfully!");
-      return res.data;
-    })
-    .catch((err) => {
-      toast.error("Error creating student.");
-      console.error("Error creating student:", err);
-    });
+export const createStudent = async (student) => {
+  try {
+    const res = await axios.post(API_URL, student);
+    return res.data;
+  } catch (err) {
+    console.error("creating student:", err);
+  }
 };
 
-export const updateStudent = (id, updatedStudent) => {
-  return axios
-    .put(`${API_URL}/${id}`, updatedStudent)
-    .then((res) => {
-      toast.success("Student updated successfully!");
-      return res.data;
-    })
-    .catch((err) => {
-      toast.error("Error updating student.");
-      console.error("Error updating student:", err);
-    });
+export const updateStudent = async (id, updatedStudent) => {
+  try {
+    const res = await axios.put(`${API_URL}/${id}`, updatedStudent);
+    return res.data;
+  } catch (err) {
+    console.error("update student:", err);
+  }
 };
 
-export const deleteStudent = (id) => {
-  return axios
-    .delete(`${API_URL}/${id}`)
-    .then((res) => {
-      toast.success("Student deleted successfully!");
-      return res.data;
-    })
-    .catch((err) => {
-      toast.error("Error deleting student.");
-      console.error("Error deleting student:", err);
-    });
+export const deleteStudent = async (id) => {
+  try {
+    const res = await axios.delete(`${API_URL}/${id}`);
+    return res.data;
+  } catch (err) {
+    console.error("deleting student:", err);
+  }
 };

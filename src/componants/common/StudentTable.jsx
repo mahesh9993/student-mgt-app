@@ -36,7 +36,9 @@ const StudentTable = ({ students, onEdit, onDelete, action }) => {
             {students.map((student) => (
               <TableRow key={student.id}>
                 <TableCell>{student.name}</TableCell>
-                <TableCell>{student.dob.toLocaleDateString()}</TableCell>
+                <TableCell>
+                  {new Date(student.dob).toLocaleDateString()}
+                </TableCell>
                 <TableCell>{student.email}</TableCell>
                 <TableCell>{student.phone}</TableCell>
                 <TableCell
