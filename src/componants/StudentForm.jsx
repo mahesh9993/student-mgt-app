@@ -3,17 +3,23 @@ import { Box, Button } from "@mui/material";
 import DateField from "./common/DateField";
 import RadioField from "./common/RadioField";
 import InputField from "./common/InputField";
+import { useNavigate } from "react-router-dom";
+import Joi from "joi";
 
-const StudentForm = ({ onSubmit, currentStudent, onUpdate }) => {
+const StudentForm = ({ onAdd, currentStudent, onUpdate }) => {
   const [formData, setFormData] = useState({
-    id: "",
+    id: 0,
     name: "",
     gender: null,
     address: "",
-    dob: new Date(),
+    dob: "",
     email: "",
     phone: "",
   });
+
+  const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (currentStudent) {
@@ -23,25 +29,73 @@ const StudentForm = ({ onSubmit, currentStudent, onUpdate }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (name === "gender") {
+      setFormData({
+        ...formData,
+        [name]: Number(value),
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const handleDobChange = (date) => {
     let dob = date.format("YYYY-MM-DD");
-    setFormData({ ...formData, dob: new Date(dob) });
+    setFormData({ ...formData, dob: new Date(dob).toISOString() });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const errors = validate();
+    setErrors(errors || {});
+
+    console.log(errors);
+
+    if (errors) return;
+
     const student = { ...formData };
     if (currentStudent) {
       onUpdate(student);
+      navigate("/");
     } else {
-      onSubmit(student);
+      onAdd(student);
+      setFormData({
+        id: 0,
+        name: "",
+        gender: null,
+        address: "",
+        dob: "",
+        email: "",
+        phone: "",
+      });
     }
+  };
+
+  const schema = Joi.object({
+    id: Joi.number().integer(),
+    name: Joi.string().required().label("Full Name"),
+    gender: Joi.number().integer().required().label("Gender"),
+    address: Joi.string().required().label("Address"),
+    dob: Joi.date().required().label("Date Of Birth"),
+    email: Joi.string()
+      .email({ tlds: { allow: ["com", "net", "org"] } })
+      .required()
+      .label("Email"),
+    phone: Joi.string().min(10).max(10).required().label("Telephone No"),
+  });
+
+  const validate = () => {
+    const { error } = schema.validate(formData, { abortEarly: false });
+    if (!error) return null;
+
+    const errors = {};
+    error.details.forEach((detail) => {
+      errors[detail.path[0]] = detail.message;
+    });
+    return errors;
   };
 
   return (
@@ -61,6 +115,7 @@ const StudentForm = ({ onSubmit, currentStudent, onUpdate }) => {
         name={"name"}
         value={formData.name}
         onChange={handleInputChange}
+        error={errors.name}
       />
       <InputField
         label={"Address"}
@@ -68,9 +123,10 @@ const StudentForm = ({ onSubmit, currentStudent, onUpdate }) => {
         name={"address"}
         value={formData.address}
         onChange={handleInputChange}
+        error={errors.address}
       />
       <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-        <DateField onChange={handleDobChange} value={null} />
+        <DateField onChange={handleDobChange} value={null} error={errors.dob} />
         <RadioField value={formData.gender} onChange={handleInputChange} />
       </Box>
       <InputField
@@ -79,6 +135,7 @@ const StudentForm = ({ onSubmit, currentStudent, onUpdate }) => {
         name={"email"}
         value={formData.email}
         onChange={handleInputChange}
+        error={errors.email}
       />
       <InputField
         label={"Telephone"}
@@ -87,6 +144,7 @@ const StudentForm = ({ onSubmit, currentStudent, onUpdate }) => {
         width={"350px"}
         value={formData.phone}
         onChange={handleInputChange}
+        error={errors.phone}
       />
       <Button
         type="submit"

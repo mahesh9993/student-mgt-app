@@ -1,40 +1,54 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const API_URL = "https://localhost:44381/api/Student";
 
 export const getStudents = async () => {
   try {
     const res = await axios.get(API_URL);
-    console.log(res.data);
+    //console.log(res.data);
     return res.data;
   } catch (err) {
-    console.error("student list:", err);
+    toast.error("Data Fetch Error");
   }
 };
 
-export const createStudent = async (student) => {
+export const getStudentByPhoneNo = async (phone) => {
   try {
-    const res = await axios.post(API_URL, student);
+    const res = await axios.get(`${API_URL}/${phone}`);
     return res.data;
   } catch (err) {
-    console.error("creating student:", err);
+    toast.error("Not Found");
   }
 };
 
-export const updateStudent = async (id, updatedStudent) => {
+export const createStudents = async (students) => {
   try {
-    const res = await axios.put(`${API_URL}/${id}`, updatedStudent);
+    const res = await axios.post(API_URL, students);
+    toast.success("Students Successfully Created");
+    return res;
+  } catch (err) {
+    toast.error("Student Creation Failed");
+  }
+};
+
+export const updateStudent = async (student) => {
+  console.log(student);
+  try {
+    const res = await axios.put(API_URL, student);
+    toast.success("Successfully Updated");
     return res.data;
   } catch (err) {
-    console.error("update student:", err);
+    toast.error("Failed to Update");
   }
 };
 
 export const deleteStudent = async (id) => {
   try {
     const res = await axios.delete(`${API_URL}/${id}`);
-    return res.data;
+    toast.success("Delete Successfull");
+    return res;
   } catch (err) {
-    console.error("deleting student:", err);
+    toast.error("Delete Failed");
   }
 };

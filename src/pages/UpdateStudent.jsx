@@ -6,7 +6,7 @@ const UpdateStudent = ({ currentStudent, onUpdate }) => {
   return (
     <div>
       <Navbar navName={"Update Student"} />
-      <StudentForm currentStudent={currentStudent} onUpdate={onUpdate} />;
+      <StudentForm currentStudent={currentStudent} onUpdate={onUpdate} />
     </div>
   );
 };
