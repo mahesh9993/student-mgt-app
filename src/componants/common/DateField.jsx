@@ -5,8 +5,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import React from "react";
 
 const DateField = ({ onChange, value, error }) => {
-  //console.log(dob.format("YYYY-MM-DD"));
-
   return (
     <Stack spacing={2}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>

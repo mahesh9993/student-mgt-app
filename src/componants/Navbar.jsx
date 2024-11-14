@@ -12,8 +12,8 @@ const Navbar = ({ navName }) => {
         sx={{
           backgroundColor: "lightgray",
           boxShadow: "none",
-          maxWidth: "1000px", // Adjust the maxWidth as needed
-          width: "100%", // Ensures it fills up to maxWidth
+          maxWidth: "1000px",
+          width: "100%",
         }}
       >
         <Toolbar>

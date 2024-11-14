@@ -19,8 +19,6 @@ function App() {
   const [currentStudent, setCurrentStudent] = useState({});
   const [apiTriggerer, setApiTriggerer] = useState(true);
 
-  //console.log("students", students);
-
   useEffect(() => {
     const fetchStudents = async () => {
       try {
@@ -37,7 +35,7 @@ function App() {
     if (phone) {
       try {
         const res = await getStudentByPhoneNo(phone);
-        console.log(res);
+        setStudents([...res]);
       } catch (error) {}
     } else {
       console.log("search term not found");
@@ -48,7 +46,6 @@ function App() {
     const newStudentsList = [...newStudents];
     newStudentsList.push(student);
     setNewStudents(newStudentsList);
-    //console.log(newStudentsList);
   };
 
   const handleSubmit = async () => {
@@ -58,8 +55,6 @@ function App() {
     } catch (error) {
       console.error("students creation failed", error);
     }
-    //console.log(res);
-    //console.log(newStudents);
   };
 
   const handleEdit = (student) => {
@@ -67,7 +62,6 @@ function App() {
   };
 
   const handleUpdate = async (student) => {
-    //console.log(student);
     try {
       await updateStudent(student);
       setApiTriggerer(!apiTriggerer);

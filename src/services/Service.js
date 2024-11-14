@@ -6,7 +6,6 @@ const API_URL = "https://localhost:44381/api/Student";
 export const getStudents = async () => {
   try {
     const res = await axios.get(API_URL);
-    //console.log(res.data);
     return res.data;
   } catch (err) {
     toast.error("Data Fetch Error");
@@ -25,7 +24,7 @@ export const getStudentByPhoneNo = async (phone) => {
 export const createStudents = async (students) => {
   try {
     const res = await axios.post(API_URL, students);
-    toast.success("Students Successfully Created");
+    toast.success("Student Successfully Created");
     return res;
   } catch (err) {
     toast.error("Student Creation Failed");

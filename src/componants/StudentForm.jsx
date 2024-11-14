@@ -52,8 +52,6 @@ const StudentForm = ({ onAdd, currentStudent, onUpdate }) => {
     const errors = validate();
     setErrors(errors || {});
 
-    console.log(errors);
-
     if (errors) return;
 
     const student = { ...formData };
